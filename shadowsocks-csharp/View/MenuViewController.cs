@@ -356,7 +356,7 @@ namespace Shadowsocks.View
 
         private void QRCodeItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Test");
+            MessageBox.Show("Sweet禁用了此功能。");
             //QRCodeForm qrCodeForm = new QRCodeForm(controller.GetQRCodeForCurrentServer());
             ////qrCodeForm.Icon = this.Icon;
             //// TODO
