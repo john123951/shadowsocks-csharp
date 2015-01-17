@@ -356,10 +356,11 @@ namespace Shadowsocks.View
 
         private void QRCodeItem_Click(object sender, EventArgs e)
         {
-            QRCodeForm qrCodeForm = new QRCodeForm(controller.GetQRCodeForCurrentServer());
-            //qrCodeForm.Icon = this.Icon;
-            // TODO
-            qrCodeForm.Show();
+            MessageBox.Show("Test");
+            //QRCodeForm qrCodeForm = new QRCodeForm(controller.GetQRCodeForCurrentServer());
+            ////qrCodeForm.Icon = this.Icon;
+            //// TODO
+            //qrCodeForm.Show();
         }
 
         private void ScanQRCodeItem_Click(object sender, EventArgs e)

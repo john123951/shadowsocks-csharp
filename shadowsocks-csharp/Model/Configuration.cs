@@ -1,4 +1,5 @@
 ﻿using Shadowsocks.Controller;
+using Shadowsocks.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,7 +45,11 @@ namespace Shadowsocks.Model
             try
             {
                 string configContent = File.ReadAllText(CONFIG_FILE);
-                Configuration config = SimpleJson.SimpleJson.DeserializeObject<Configuration>(configContent, new JsonSerializerStrategy());
+
+                //解密
+                var data = AesUtility.DecryptString(configContent, HardwareUtility.GetHardDiskSerialNo());
+
+                Configuration config = SimpleJson.SimpleJson.DeserializeObject<Configuration>(data, new JsonSerializerStrategy());
                 config.isDefault = false;
                 return config;
             }
@@ -79,10 +84,14 @@ namespace Shadowsocks.Model
             config.isDefault = false;
             try
             {
+                string jsonString = SimpleJson.SimpleJson.SerializeObject(config);
+
+                //加密
+                var data = AesUtility.EncryptString(jsonString, HardwareUtility.GetHardDiskSerialNo());
+
                 using (StreamWriter sw = new StreamWriter(File.Open(CONFIG_FILE, FileMode.Create)))
                 {
-                    string jsonString = SimpleJson.SimpleJson.SerializeObject(config);
-                    sw.Write(jsonString);
+                    sw.Write(data);
                     sw.Flush();
                 }
             }
