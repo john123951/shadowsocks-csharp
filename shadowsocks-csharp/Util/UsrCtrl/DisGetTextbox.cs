@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using shadowsocks_csharp.util.WindowsAPI;
 
 namespace Shadowsocks.Util.UsrCtrl
 {

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Win32;
 using Shadowsocks.Controller;
-using Shadowsocks.Model;
+using Shadowsocks.DomainModel;
 using Shadowsocks.Properties;
 
 namespace Shadowsocks.View

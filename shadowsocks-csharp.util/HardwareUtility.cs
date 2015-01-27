@@ -2,7 +2,7 @@
 using System.Management;
 using System.Text;
 
-namespace Shadowsocks.Util
+namespace shadowsocks_csharp.util
 {
     /// <summary>
     /// 得到硬件信息

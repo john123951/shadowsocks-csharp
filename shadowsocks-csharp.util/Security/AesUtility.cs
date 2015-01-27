@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Shadowsocks.Util
+namespace shadowsocks_csharp.util.Security
 {
     /// <summary>
     /// Encryption / Decryption wrapper using AesManaged.

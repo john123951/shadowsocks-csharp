@@ -1,4 +1,4 @@
-namespace Shadowsocks.Util
+namespace shadowsocks_csharp.util.WindowsAPI
 {
 	/// <summary>
 	/// Window API enumerations

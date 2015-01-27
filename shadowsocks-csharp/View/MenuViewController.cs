@@ -1,5 +1,5 @@
 ﻿using Shadowsocks.Controller;
-using Shadowsocks.Model;
+using Shadowsocks.DomainModel;
 using Shadowsocks.Properties;
 using System;
 using System.Diagnostics;
@@ -137,8 +137,10 @@ namespace Shadowsocks.View
                 }),
                 this.ServersItem = CreateMenuGroup("Servers", new MenuItem[] {
                     this.SeperatorItem = new MenuItem("-"),
-                    this.ShareOverLANItem = CreateMenuItem("Share over LAN", new EventHandler(this.ShareOverLANItem_Click)),
+                    this.ShareOverLANItem = CreateMenuItem("Update Server List", new EventHandler(this.UpdateServerList_Click)),
                     this.ConfigItem = CreateMenuItem("Edit Servers...", new EventHandler(this.Config_Click)),
+                    new MenuItem("-"),
+                    this.ShareOverLANItem = CreateMenuItem("Share over LAN", new EventHandler(this.ShareOverLANItem_Click)),
                     //CreateMenuItem("Show QRCode...", new EventHandler(this.QRCodeItem_Click)),    //禁用生成二维码
                     //CreateMenuItem("Scan QRCode from Screen...", new EventHandler(this.ScanQRCodeItem_Click)) //禁用扫描二维码
                 }),
@@ -151,6 +153,11 @@ namespace Shadowsocks.View
                 new MenuItem("-"),
                 CreateMenuItem("Quit", new EventHandler(this.Quit_Click))
             });
+        }
+
+        private void UpdateServerList_Click(object sender, EventArgs e)
+        {
+            controller.UpdateServerList();
         }
 
         private void controller_ConfigChanged(object sender, EventArgs e)

@@ -1,10 +1,14 @@
-﻿using Shadowsocks.Model;
+﻿using Shadowsocks.DomainModel;
+using Shadowsocks.Mappers;
+using Shadowsocks.View;
+using shadowsocks_csharp.model.Request;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Shadowsocks.Controller
 {
@@ -23,6 +27,8 @@ namespace Shadowsocks.Controller
         private PolipoRunner polipoRunner;
         private GFWListUpdater gfwListUpdater;
         private bool stopped = false;
+        private string _token;
+        private readonly UpdateServerListClient _updateServerListClient;
 
         private bool _systemProxyIsDirty = false;
 
@@ -51,10 +57,14 @@ namespace Shadowsocks.Controller
         public ShadowsocksController()
         {
             _config = Configuration.Load();
+            _updateServerListClient = new UpdateServerListClient(_config);
         }
 
         public void Start()
         {
+            //read remote server list
+            GetServerList(_config);
+
             Reload();
         }
 
@@ -74,7 +84,107 @@ namespace Shadowsocks.Controller
         // always return copy
         public Configuration GetConfiguration()
         {
-            return Configuration.Load();
+            var config = Configuration.Load();
+
+            return config;
+        }
+
+        public void GetServerList(Configuration config)
+        {
+            try
+            {
+                //未登录时，登录
+                UserLogin(config.UserInfo);
+
+                if (string.IsNullOrEmpty(_token))
+                {
+                    var loginForm = new LoginForm(_updateServerListClient);
+
+                    var dlgResult = loginForm.ShowDialog();
+
+                    if (dlgResult == DialogResult.OK)
+                    {
+                        //保存配置
+                        config.UserInfo = loginForm.UserInfo;
+                        this._token = loginForm.Token;
+
+                        Configuration.Save(config);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
+                UpdateServerList();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public void UpdateServerList()
+        {
+            try
+            {
+                var response = _updateServerListClient.GetServerList(new GetServerListRequest
+                        {
+                            ClientId = AppSession.ClientId,
+                            Token = _token
+                        });
+
+                if (response.IsSuccess)
+                {
+                    var serverList = response.ServerList.ToEntity();
+                    SaveServers(serverList);
+                }
+                else
+                {
+                    MessageBox.Show(response.Msg);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void UserLogin(UserInfo userInfo)
+        {
+            //首次运行
+            if (userInfo == null || string.IsNullOrEmpty(userInfo.UserName) || string.IsNullOrEmpty(userInfo.Password))
+            {
+                //MessageBox.Show(@"首次运行，请先验证用户");
+                return;
+            }
+
+            try
+            {
+                var loginResponse = _updateServerListClient.Login(new LoginRequest
+                {
+                    ClientId = AppSession.ClientId,
+                    UserName = userInfo.UserName,
+                    Password = userInfo.Password
+                });
+
+                if (loginResponse.IsSuccess)
+                {
+                    _token = loginResponse.Token;
+                    if (string.IsNullOrEmpty(loginResponse.Notify) != true)
+                    {
+                        MessageBox.Show(loginResponse.Notify);
+                    }
+                }
+                else
+                {
+                    var msg = loginResponse.Msg;
+                    MessageBox.Show(msg);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public void SaveServers(List<Server> servers)

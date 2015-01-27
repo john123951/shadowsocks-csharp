@@ -1,4 +1,4 @@
-﻿using Shadowsocks.Model;
+﻿using Shadowsocks.DomainModel;
 using Shadowsocks.Properties;
 using Shadowsocks.Util;
 using System;
