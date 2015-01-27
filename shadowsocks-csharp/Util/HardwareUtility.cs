@@ -30,7 +30,6 @@ namespace Shadowsocks.Util
                     {
                         return serialNum.ToString().Trim();
                     }
-
                 }
             }
 
@@ -57,4 +56,3 @@ namespace Shadowsocks.Util
         }
     }
 }
-

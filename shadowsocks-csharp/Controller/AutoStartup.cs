@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows.Forms;
-using Microsoft.Win32;
 
 namespace Shadowsocks.Controller
 {
-    class AutoStartup
+    internal class AutoStartup
     {
         public static bool Set(bool enabled)
         {

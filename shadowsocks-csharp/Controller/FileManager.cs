@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
 
 namespace Shadowsocks.Controller
 {
@@ -31,7 +29,7 @@ namespace Shadowsocks.Controller
         {
             FileStream destinationFile = File.Create(fileName);
 
-            // Because the uncompressed size of the file is unknown, 
+            // Because the uncompressed size of the file is unknown,
             // we are using an arbitrary buffer size.
             byte[] buffer = new byte[4096];
             int n;

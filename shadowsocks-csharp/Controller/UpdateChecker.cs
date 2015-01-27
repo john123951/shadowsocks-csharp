@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Shadowsocks.Controller
 {
+    //禁用自动升级
     public class UpdateChecker
     {
-        private const string UpdateURL = "https://sourceforge.net/api/file/index/project-id/1817190/path/dist/mtime/desc/limit/10/rss";
+        protected const string UpdateURL = "https://sourceforge.net/api/file/index/project-id/1817190/path/dist/mtime/desc/limit/10/rss";
+        public const string Version = "2.2";
 
         public string LatestVersionNumber;
         public string LatestVersionURL;
+
         public event EventHandler NewVersionFound;
-
-        public const string Version = "2.2";
-
-        public void CheckUpdate()
-        {
-            // TODO test failures
-            WebClient http = new WebClient();
-            http.Proxy = new WebProxy(IPAddress.Loopback.ToString(), 8123);
-            http.DownloadStringCompleted += http_DownloadStringCompleted;
-            http.DownloadStringAsync(new Uri(UpdateURL));
-        }
 
         public static int CompareVersion(string l, string r)
         {
@@ -44,14 +34,32 @@ namespace Shadowsocks.Controller
             return 0;
         }
 
+        public virtual void CheckUpdate()
+        {
+            //禁用自动升级
+        }
+    }
+
+    public class DisabledUpdateChecker : UpdateChecker
+    {
+        public event EventHandler NewVersionFound;
+
+        public void CheckUpdate()
+        {
+            // TODO test failures
+            WebClient http = new WebClient();
+            http.Proxy = new WebProxy(IPAddress.Loopback.ToString(), 8123);
+            http.DownloadStringCompleted += http_DownloadStringCompleted;
+            http.DownloadStringAsync(new Uri(UpdateURL));
+        }
+
         public class VersionComparer : IComparer<string>
         {
-            // Calls CaseInsensitiveComparer.Compare with the parameters reversed. 
+            // Calls CaseInsensitiveComparer.Compare with the parameters reversed.
             public int Compare(string x, string y)
             {
                 return CompareVersion(ParseVersionFromURL(x), ParseVersionFromURL(y));
             }
-
         }
 
         private static string ParseVersionFromURL(string url)

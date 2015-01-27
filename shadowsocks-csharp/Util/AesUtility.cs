@@ -22,17 +22,20 @@ namespace Shadowsocks.Util
         /// Secret key size in bits.
         /// </summary>
         private const int _keySize = 256;
+
         /// <summary>
         /// Initialization Vector length in bytes.
         /// </summary>
         private const int _ivLength = 16;
+
         /// <summary>
         /// Padding for rounding byte count before encryption.
         /// </summary>
         /// <remarks>PaddingModes Zeros and None does not work.</remarks>
         private const PaddingMode _paddingMode = PaddingMode.PKCS7;
+
         /// <summary>
-        /// Some const string randomly generated as passphrase for testing. 
+        /// Some const string randomly generated as passphrase for testing.
         /// Used to create byte[] key.
         /// </summary>
         /// <remarks>Do NOT use this. Change it!</remarks>
@@ -49,9 +52,8 @@ httjuwxxkk
 tiuwjtlweg
 bskcvvscao";
 
+        #endregion properties
 
-        #endregion
-        
         #region methods
 
         /// <summary>
@@ -95,7 +97,6 @@ bskcvvscao";
         /// </summary>
         public static string DecryptString(string textEncrypted, string key)
         {
-
             byte[] textBytesDecrypted;
             using (var aes = new AesManaged())
             {
@@ -195,6 +196,6 @@ bskcvvscao";
             return ivdata;
         }
 
-        #endregion
+        #endregion methods
     }
 }

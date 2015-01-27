@@ -2,24 +2,21 @@
 using Shadowsocks.Properties;
 using Shadowsocks.Util;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
 namespace Shadowsocks.Controller
 {
-    class PACServer
+    internal class PACServer
     {
         private static int PORT = 8093;
         public static string PAC_FILE = "pac.txt";
         private static Configuration config;
 
-        Socket _listener;
-        FileSystemWatcher watcher;
+        private Socket _listener;
+        private FileSystemWatcher watcher;
 
         public event EventHandler PACFileChanged;
 
@@ -80,7 +77,7 @@ namespace Shadowsocks.Controller
         }
 
         // we don't even use it
-        static byte[] requestBuf = new byte[2048];
+        private static byte[] requestBuf = new byte[2048];
 
         public void AcceptCallback(IAsyncResult ar)
         {

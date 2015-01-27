@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Diagnostics;
-using SimpleJson;
 using Shadowsocks.Controller;
+using System;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Shadowsocks.Model
@@ -45,7 +41,8 @@ namespace Shadowsocks.Model
             this.remarks = "";
         }
 
-        public Server(string ssURL) : this()
+        public Server(string ssURL)
+            : this()
         {
             string[] r1 = Regex.Split(ssURL, "ss://", RegexOptions.IgnoreCase);
             string base64 = r1[1].ToString();

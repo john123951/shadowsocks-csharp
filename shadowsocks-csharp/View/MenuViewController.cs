@@ -2,10 +2,8 @@
 using Shadowsocks.Model;
 using Shadowsocks.Properties;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
@@ -18,7 +16,7 @@ namespace Shadowsocks.View
         // yes this is just a menu view controller
         // when config form is closed, it moves away from RAM
         // and it should just do anything related to the config form
-        
+
         private ShadowsocksController controller;
         private UpdateChecker updateChecker;
 
@@ -72,7 +70,7 @@ namespace Shadowsocks.View
             }
         }
 
-        void controller_Errored(object sender, System.IO.ErrorEventArgs e)
+        private void controller_Errored(object sender, System.IO.ErrorEventArgs e)
         {
             MessageBox.Show(e.GetException().ToString(), String.Format(I18N.GetString("Shadowsocks Error: {0}"), e.GetException().Message));
         }
@@ -107,7 +105,7 @@ namespace Shadowsocks.View
                     for (int y = 0; y < iconCopy.Height; y++)
                     {
                         Color color = icon.GetPixel(x, y);
-                        iconCopy.SetPixel(x, y , Color.FromArgb((byte)(color.A / 1.25), color.R, color.G, color.B));
+                        iconCopy.SetPixel(x, y, Color.FromArgb((byte)(color.A / 1.25), color.R, color.G, color.B));
                     }
                 }
                 icon = iconCopy;
@@ -132,21 +130,21 @@ namespace Shadowsocks.View
         {
             this.contextMenu1 = new ContextMenu(new MenuItem[] {
                 this.enableItem = CreateMenuItem("Enable", new EventHandler(this.EnableItem_Click)),
+                this.AutoStartupItem = CreateMenuItem("Start on Boot", new EventHandler(this.AutoStartupItem_Click)),
                 CreateMenuGroup("Mode", new MenuItem[] {
                     this.PACModeItem = CreateMenuItem("PAC", new EventHandler(this.PACModeItem_Click)),
                     this.globalModeItem = CreateMenuItem("Global", new EventHandler(this.GlobalModeItem_Click))
                 }),
                 this.ServersItem = CreateMenuGroup("Servers", new MenuItem[] {
                     this.SeperatorItem = new MenuItem("-"),
+                    this.ShareOverLANItem = CreateMenuItem("Share over LAN", new EventHandler(this.ShareOverLANItem_Click)),
                     this.ConfigItem = CreateMenuItem("Edit Servers...", new EventHandler(this.Config_Click)),
-                    CreateMenuItem("Show QRCode...", new EventHandler(this.QRCodeItem_Click)),
-                    CreateMenuItem("Scan QRCode from Screen...", new EventHandler(this.ScanQRCodeItem_Click))
+                    //CreateMenuItem("Show QRCode...", new EventHandler(this.QRCodeItem_Click)),    //禁用生成二维码
+                    //CreateMenuItem("Scan QRCode from Screen...", new EventHandler(this.ScanQRCodeItem_Click)) //禁用扫描二维码
                 }),
                 new MenuItem("-"),
-                this.AutoStartupItem = CreateMenuItem("Start on Boot", new EventHandler(this.AutoStartupItem_Click)),
-                this.ShareOverLANItem = CreateMenuItem("Share over LAN", new EventHandler(this.ShareOverLANItem_Click)),
-                CreateMenuItem("Edit PAC File...", new EventHandler(this.EditPACFileItem_Click)),
                 CreateMenuItem("Update PAC from GFWList", new EventHandler(this.UpdatePACFromGFWListItem_Click)),
+                CreateMenuItem("Edit PAC File...", new EventHandler(this.EditPACFileItem_Click)),
                 new MenuItem("-"),
                 CreateMenuItem("Show Logs...", new EventHandler(this.ShowLogItem_Click)),
                 CreateMenuItem("About...", new EventHandler(this.AboutItem_Click)),
@@ -166,25 +164,25 @@ namespace Shadowsocks.View
             enableItem.Checked = controller.GetConfiguration().enabled;
         }
 
-        void controller_ShareOverLANStatusChanged(object sender, EventArgs e)
+        private void controller_ShareOverLANStatusChanged(object sender, EventArgs e)
         {
             ShareOverLANItem.Checked = controller.GetConfiguration().shareOverLan;
         }
 
-        void controller_EnableGlobalChanged(object sender, EventArgs e)
+        private void controller_EnableGlobalChanged(object sender, EventArgs e)
         {
             globalModeItem.Checked = controller.GetConfiguration().global;
             PACModeItem.Checked = !globalModeItem.Checked;
         }
 
-        void controller_PACFileReadyToOpen(object sender, ShadowsocksController.PathEventArgs e)
+        private void controller_PACFileReadyToOpen(object sender, ShadowsocksController.PathEventArgs e)
         {
             string argument = @"/select, " + e.Path;
 
             System.Diagnostics.Process.Start("explorer.exe", argument);
         }
 
-        void ShowBalloonTip(string title, string content, ToolTipIcon icon, int timeout)
+        private void ShowBalloonTip(string title, string content, ToolTipIcon icon, int timeout)
         {
             _notifyIcon.BalloonTipTitle = title;
             _notifyIcon.BalloonTipText = content;
@@ -192,30 +190,29 @@ namespace Shadowsocks.View
             _notifyIcon.ShowBalloonTip(timeout);
         }
 
-        void controller_UpdatePACFromGFWListError(object sender, System.IO.ErrorEventArgs e)
+        private void controller_UpdatePACFromGFWListError(object sender, System.IO.ErrorEventArgs e)
         {
             ShowBalloonTip(I18N.GetString("Failed to update PAC file"), e.GetException().Message, ToolTipIcon.Error, 5000);
             Logging.LogUsefulException(e.GetException());
         }
 
-        void controller_UpdatePACFromGFWListCompleted(object sender, EventArgs e)
+        private void controller_UpdatePACFromGFWListCompleted(object sender, EventArgs e)
         {
             ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("PAC updated"), ToolTipIcon.Info, 1000);
         }
 
-        void updateChecker_NewVersionFound(object sender, EventArgs e)
+        private void updateChecker_NewVersionFound(object sender, EventArgs e)
         {
             ShowBalloonTip(String.Format(I18N.GetString("Shadowsocks {0} Update Found"), updateChecker.LatestVersionNumber), I18N.GetString("Click here to download"), ToolTipIcon.Info, 5000);
             _notifyIcon.BalloonTipClicked += notifyIcon1_BalloonTipClicked;
             _isFirstRun = false;
         }
 
-        void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(updateChecker.LatestVersionURL);
             _notifyIcon.BalloonTipClicked -= notifyIcon1_BalloonTipClicked;
         }
-
 
         private void LoadCurrentConfiguration()
         {
@@ -266,7 +263,7 @@ namespace Shadowsocks.View
             }
         }
 
-        void configForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void configForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             configForm = null;
             Util.Utils.ReleaseMemory();
@@ -290,7 +287,7 @@ namespace Shadowsocks.View
             if (_isFirstRun)
             {
                 _notifyIcon.BalloonTipTitle = I18N.GetString("Shadowsocks is here");
-                _notifyIcon.BalloonTipText =  I18N.GetString("You can turn on/off Shadowsocks in the context menu");
+                _notifyIcon.BalloonTipText = I18N.GetString("You can turn on/off Shadowsocks in the context menu");
                 _notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
                 _notifyIcon.ShowBalloonTip(0);
                 _isFirstRun = false;
@@ -447,21 +444,23 @@ namespace Shadowsocks.View
             MessageBox.Show(I18N.GetString("No QRCode found. Try to zoom in or move it to the center of the screen."));
         }
 
-        void splash_FormClosed(object sender, FormClosedEventArgs e)
+        private void splash_FormClosed(object sender, FormClosedEventArgs e)
         {
             ShowConfigForm();
         }
 
-        void openURLFromQRCode(object sender, FormClosedEventArgs e)
+        private void openURLFromQRCode(object sender, FormClosedEventArgs e)
         {
             Process.Start(_urlToOpen);
         }
 
-		private void AutoStartupItem_Click(object sender, EventArgs e) {
-			AutoStartupItem.Checked = !AutoStartupItem.Checked;
-			if (!AutoStartup.Set(AutoStartupItem.Checked)) {
-				MessageBox.Show(I18N.GetString("Failed to update registry"));
-			}
-		}
+        private void AutoStartupItem_Click(object sender, EventArgs e)
+        {
+            AutoStartupItem.Checked = !AutoStartupItem.Checked;
+            if (!AutoStartup.Set(AutoStartupItem.Checked))
+            {
+                MessageBox.Show(I18N.GetString("Failed to update registry"));
+            }
+        }
     }
 }

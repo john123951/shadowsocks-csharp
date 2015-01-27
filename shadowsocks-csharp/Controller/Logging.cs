@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Shadowsocks.Controller
 {
@@ -21,7 +19,7 @@ namespace Shadowsocks.Controller
                 sw.AutoFlush = true;
                 Console.SetOut(sw);
                 Console.SetError(sw);
-                
+
                 return true;
             }
             catch (IOException e)
@@ -60,13 +58,13 @@ namespace Shadowsocks.Controller
                 Console.WriteLine(e);
             }
         }
-
     }
 
     // Simply extended System.IO.StreamWriter for adding timestamp workaround
     public class StreamWriterWithTimestamp : StreamWriter
     {
-        public StreamWriterWithTimestamp(Stream stream) : base(stream)
+        public StreamWriterWithTimestamp(Stream stream)
+            : base(stream)
         {
         }
 
@@ -85,5 +83,4 @@ namespace Shadowsocks.Controller
             base.Write(GetTimestamp() + value);
         }
     }
-
 }

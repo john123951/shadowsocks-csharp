@@ -1,7 +1,5 @@
 ﻿using Shadowsocks.Properties;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Shadowsocks.Controller
@@ -9,10 +7,11 @@ namespace Shadowsocks.Controller
     public class I18N
     {
         protected static Dictionary<string, string> Strings;
+
         static I18N()
         {
             Strings = new Dictionary<string, string>();
-            
+
             if (System.Globalization.CultureInfo.CurrentCulture.IetfLanguageTag.ToLowerInvariant().StartsWith("zh"))
             {
                 string[] lines = Regex.Split(Resources.cn, "\r\n|\r|\n");

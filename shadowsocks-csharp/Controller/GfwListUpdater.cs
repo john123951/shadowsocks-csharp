@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.IO;
-using Shadowsocks.Properties;
-using SimpleJson;
+﻿using Shadowsocks.Properties;
 using Shadowsocks.Util;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace Shadowsocks.Controller
 {

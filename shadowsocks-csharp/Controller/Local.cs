@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Sockets;
-using System.Net;
-using Shadowsocks.Encryption;
+﻿using Shadowsocks.Encryption;
 using Shadowsocks.Model;
+using System;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Shadowsocks.Controller
 {
-
-    class Local
+    internal class Local
     {
         private Server _server;
         private bool _shareOverLAN;
+
         //private Encryptor encryptor;
-        Socket _listener;
+        private Socket _listener;
+
         public Local(Configuration config)
         {
             this._server = config.GetCurrentServer();
@@ -43,26 +42,23 @@ namespace Shadowsocks.Controller
                 _listener.Bind(localEndPoint);
                 _listener.Listen(100);
 
-
                 // Start an asynchronous socket to listen for connections.
                 Console.WriteLine("Shadowsocks started");
                 _listener.BeginAccept(
                     new AsyncCallback(AcceptCallback),
                     _listener);
             }
-            catch(SocketException)
+            catch (SocketException)
             {
                 _listener.Close();
                 throw;
             }
-
         }
 
         public void Stop()
         {
             _listener.Close();
         }
-
 
         public void AcceptCallback(IAsyncResult ar)
         {
@@ -97,34 +93,43 @@ namespace Shadowsocks.Controller
                 }
             }
         }
-
     }
 
-    class Handler
+    internal class Handler
     {
         //public Encryptor encryptor;
         public IEncryptor encryptor;
+
         public Server config;
+
         // Client  socket.
         public Socket remote;
+
         public Socket connection;
+
         // Size of receive buffer.
         public const int RecvSize = 16384;
+
         public const int BufferSize = RecvSize + 32;
+
         // remote receive buffer
         private byte[] remoteRecvBuffer = new byte[RecvSize];
+
         // remote send buffer
         private byte[] remoteSendBuffer = new byte[BufferSize];
+
         // connection receive buffer
         private byte[] connetionRecvBuffer = new byte[RecvSize];
+
         // connection send buffer
         private byte[] connetionSendBuffer = new byte[BufferSize];
+
         // Received data string.
 
         private bool connectionShutdown = false;
         private bool remoteShutdown = false;
         private bool closed = false;
-        
+
         private object encryptionLock = new object();
         private object decryptionLock = new object();
 
@@ -141,7 +146,6 @@ namespace Shadowsocks.Controller
                     ipAddress = ipHostInfo.AddressList[0];
                 }
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, config.server_port);
-
 
                 remote = new Socket(ipAddress.AddressFamily,
                     SocketType.Stream, ProtocolType.Tcp);
@@ -266,7 +270,7 @@ namespace Shadowsocks.Controller
                     if (connetionRecvBuffer[0] != 5)
                     {
                         // reject socks 4
-                        response = new byte[]{ 0, 91 };
+                        response = new byte[] { 0, 91 };
                         Console.WriteLine("socks 5 protocol error");
                     }
                     connection.BeginSend(response, 0, response.Length, 0, new AsyncCallback(HandshakeSendCallback), null);
@@ -337,7 +341,6 @@ namespace Shadowsocks.Controller
                 this.Close();
             }
         }
-
 
         private void StartPipe(IAsyncResult ar)
         {
@@ -473,5 +476,4 @@ namespace Shadowsocks.Controller
             }
         }
     }
-
 }

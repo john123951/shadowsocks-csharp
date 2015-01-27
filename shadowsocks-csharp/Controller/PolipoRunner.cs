@@ -1,15 +1,12 @@
 ﻿using Shadowsocks.Model;
 using Shadowsocks.Properties;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
-using System.Text;
 
 namespace Shadowsocks.Controller
 {
-    class PolipoRunner
+    internal class PolipoRunner
     {
         private Process _process;
         private static string temppath;
@@ -45,7 +42,7 @@ namespace Shadowsocks.Controller
                         Console.WriteLine(e.ToString());
                     }
                 }
-                string polipoConfig = Resources.polipo_config; 
+                string polipoConfig = Resources.polipo_config;
                 polipoConfig = polipoConfig.Replace("__SOCKS_PORT__", server.local_port.ToString());
                 polipoConfig = polipoConfig.Replace("__POLIPO_BIND_IP__", configuration.shareOverLan ? "0.0.0.0" : "127.0.0.1");
                 FileManager.ByteArrayToFile(temppath + "/polipo.conf", System.Text.Encoding.UTF8.GetBytes(polipoConfig));
