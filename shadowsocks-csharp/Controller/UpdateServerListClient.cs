@@ -38,7 +38,7 @@ namespace Shadowsocks.Controller
             {
                 IsSuccess = true,
                 //Notify = "111",
-                Msg = "222",
+                Message = "222",
                 Token = DateTime.Now.ToString()
             };
 
@@ -52,7 +52,7 @@ namespace Shadowsocks.Controller
             var result = new GetServerListResponse
             {
                 IsSuccess = true,
-                Msg = "2222",
+                Message = "2222",
                 ServerList =
                     new List<ServerDto>()
                     {

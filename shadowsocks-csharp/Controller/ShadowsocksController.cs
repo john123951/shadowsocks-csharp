@@ -93,30 +93,50 @@ namespace Shadowsocks.Controller
         {
             try
             {
-                //未登录时，登录
-                UserLogin(config.UserInfo);
+                var userInfo = config.UserInfo;
 
-                if (string.IsNullOrEmpty(_token))
+                //有配置信息
+                if (userInfo != null && !string.IsNullOrEmpty(userInfo.UserName) && !string.IsNullOrEmpty(userInfo.Password))
                 {
-                    var loginForm = new LoginForm(_updateServerListClient);
-
-                    var dlgResult = loginForm.ShowDialog();
-
-                    if (dlgResult == DialogResult.OK)
+                    //登录
+                    var loginSuccess = UserLogin(config.UserInfo);
+                    if (loginSuccess)
                     {
-                        //保存配置
-                        config.UserInfo = loginForm.UserInfo;
-                        this._token = loginForm.Token;
-
                         Configuration.Save(config);
+                        UpdateServerList();
                     }
                     else
                     {
-                        return;
+                        var loginForm = new LoginForm(_updateServerListClient);
+
+                        var dlgResult = loginForm.ShowDialog();
+
+                        if (dlgResult == DialogResult.OK)
+                        {
+                            //保存配置
+                            config.UserInfo = loginForm.UserInfo;
+                            this._token = loginForm.Token;
+
+                            Configuration.Save(config);
+                        }
                     }
                 }
+                else
+                {
+                    var regForm = new RegistryForm();
 
-                UpdateServerList();
+                    regForm.ShowDialog();
+                    if (regForm.RegisrySuccess)
+                    {
+                        //登录
+                        var loginSuccess = UserLogin(config.UserInfo);
+                        if (loginSuccess)
+                        {
+                            Configuration.Save(config);
+                            UpdateServerList();
+                        }
+                    }
+                }
             }
             catch (Exception)
             {
@@ -140,7 +160,7 @@ namespace Shadowsocks.Controller
                 }
                 else
                 {
-                    MessageBox.Show(response.Msg);
+                    MessageBox.Show(response.Message);
                 }
             }
             catch (System.Exception ex)
@@ -149,15 +169,9 @@ namespace Shadowsocks.Controller
             }
         }
 
-        public void UserLogin(UserInfo userInfo)
+        public bool UserLogin(UserInfo userInfo)
         {
-            //首次运行
-            if (userInfo == null || string.IsNullOrEmpty(userInfo.UserName) || string.IsNullOrEmpty(userInfo.Password))
-            {
-                //MessageBox.Show(@"首次运行，请先验证用户");
-                return;
-            }
-
+            bool result = false;
             try
             {
                 var loginResponse = _updateServerListClient.Login(new LoginRequest
@@ -166,7 +180,7 @@ namespace Shadowsocks.Controller
                     UserName = userInfo.UserName,
                     Password = userInfo.Password
                 });
-
+                result = loginResponse.IsSuccess;
                 if (loginResponse.IsSuccess)
                 {
                     _token = loginResponse.Token;
@@ -177,7 +191,7 @@ namespace Shadowsocks.Controller
                 }
                 else
                 {
-                    var msg = loginResponse.Msg;
+                    var msg = loginResponse.Message;
                     MessageBox.Show(msg);
                 }
             }
@@ -185,6 +199,8 @@ namespace Shadowsocks.Controller
             {
                 MessageBox.Show(ex.Message);
             }
+
+            return result;
         }
 
         public void SaveServers(List<Server> servers)

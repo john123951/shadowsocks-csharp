@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="e593af93-466c-4b57-b747-68217dd5e6a3" name="shadowsocks" linkedPackageId="95e024f4-3483-4dfc-9683-cfd2079eaa23" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="f22962bc-0ed5-4068-9b88-82fb9cbe48cc" name="Actor1" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="cb8c1a59-7f9f-4da1-91f9-95206fe857e0" />
+        <targetEnds>
+          <association Id="41a6a50b-f2c2-4719-82cc-e22c5c74f9b9" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="登录" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="3f2375e2-a019-4e88-a7cc-ae9748f4ed10" LastKnownName="登录" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="fdf79304-94ea-4372-a4bf-12f09c36bd32" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="54d1bffb-7682-4a30-9569-af3a1c7065c9" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a5187eb1-eca5-47ed-873e-889353270c05" name="登录" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="389c8f9b-6a5f-458f-83ff-325f77057f2f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="33756219-8f1c-4363-b184-5407f23dea96" />
+          </association>
+          <association Id="f33d1457-f138-49e9-949b-a420640dae89" isDerived="false" sourceEndRoleName="Actor1" targetEndRoleName="获取服务器列表" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="77c14674-1060-4f9c-be01-5674ae6a65a7" LastKnownName="获取服务器列表" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="007898ae-3bd6-4382-8fe8-1b4f69bb0ab3" name="Actor1" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8eb55138-eeb6-4f2c-b128-40e60c19a5ba" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dc46670a-7e8e-4594-9ecb-19cd1ce651c2" name="获取服务器列表" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="7f9403ee-2f50-4da3-ba23-4d01819c4667" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9b83ced0-b0ef-4dd8-8b19-6033603354fd" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="3f2375e2-a019-4e88-a7cc-ae9748f4ed10" name="登录" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3e172ee1-2a0f-4f06-bc5e-d6c1e46f8695" />
+        <additions>
+          <include Id="04733b20-4792-43b8-b398-ab28507e0efc">
+            <useCaseMoniker Id="8988ac10-24eb-4148-a0fd-40fb679cbf3c" LastKnownName="回答问题" />
+            <elementDefinition Id="530d5de5-b763-4453-8269-5722b40fb2b2" />
+          </include>
+          <include Id="2e7a4685-e551-46ed-b68e-965eaafb9458">
+            <useCaseMoniker Id="0c9ee4cf-8f1b-41e8-ad14-a8c9185006c9" LastKnownName="绑定机器码" />
+            <elementDefinition Id="14529272-2ea3-4add-9c64-c0c48ffdf4d6" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="77c14674-1060-4f9c-be01-5674ae6a65a7" name="获取服务器列表" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c70f48a5-724c-4466-ac6c-0ac65384354a" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="8988ac10-24eb-4148-a0fd-40fb679cbf3c" name="回答问题" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5df1759b-34f7-4020-b545-cb9c1eabb684" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="0c9ee4cf-8f1b-41e8-ad14-a8c9185006c9" name="绑定机器码" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="179a5dab-7e32-4cea-a5d8-be81ab8e5f58" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="95e024f4-3483-4dfc-9683-cfd2079eaa23" name="shadowsocks-csharp.architecture">
+    <elementDefinition Id="7b086588-7fb9-4e55-9233-5107a1ca466c" />
+    <profileInstances>
+      <packageHasProfileInstances Id="f8a933b4-9354-4faa-bcda-dd969082071a">
+        <profileInstance Id="c7e83236-c538-42ae-aab7-1251ac2220d9" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="9c846b4d-0a49-4db3-9d97-951f2faa86f7">
+        <profileInstance Id="c1f68752-3ab4-49f9-9e00-bae7bd6ba1c0" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</useCaseModelRoot>

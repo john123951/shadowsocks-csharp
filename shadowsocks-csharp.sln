@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shadowsocks-csharp.model", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shadowsocks-csharp.util", "shadowsocks-csharp.util\shadowsocks-csharp.util.csproj", "{114C7346-2F9B-4A97-8CCF-CFED209E7CE5}"
 EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "shadowsocks-csharp.architecture", "shadowsocks-csharp.architecture\shadowsocks-csharp.architecture.modelproj", "{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,16 @@ Global
 		{114C7346-2F9B-4A97-8CCF-CFED209E7CE5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{114C7346-2F9B-4A97-8CCF-CFED209E7CE5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{114C7346-2F9B-4A97-8CCF-CFED209E7CE5}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5BA588A1-0AD3-4502-B76A-FCB5E0C172DC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

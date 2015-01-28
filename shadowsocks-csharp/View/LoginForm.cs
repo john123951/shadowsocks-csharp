@@ -59,7 +59,7 @@ namespace Shadowsocks.View
             }
             else
             {
-                var msg = loginResponse.Msg;
+                var msg = loginResponse.Message;
                 MessageBox.Show(msg);
             }
         }

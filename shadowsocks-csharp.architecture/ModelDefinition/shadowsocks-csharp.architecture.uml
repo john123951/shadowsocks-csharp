@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm9="http://schemas.microsoft.com/dsltools/UseCaseModel"
+  dslVersion="1.0.0.0"
+  Id="7b086588-7fb9-4e55-9233-5107a1ca466c"
+  name="shadowsocks-csharp.architecture" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <actor
+        Id="cb8c1a59-7f9f-4da1-91f9-95206fe857e0"
+        name="Actor1"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="33756219-8f1c-4363-b184-5407f23dea96"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="登录"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="3e172ee1-2a0f-4f06-bc5e-d6c1e46f8695"
+              LastKnownName="登录"
+              LastKnownLocation="shadowsocks-csharp.architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="54d1bffb-7682-4a30-9569-af3a1c7065c9"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="389c8f9b-6a5f-458f-83ff-325f77057f2f"
+                  name="登录"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="9b83ced0-b0ef-4dd8-8b19-6033603354fd"
+            isDerived="false"
+            sourceEndRoleName="Actor1"
+            targetEndRoleName="获取服务器列表"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="c70f48a5-724c-4466-ac6c-0ac65384354a"
+              LastKnownName="获取服务器列表"
+              LastKnownLocation="shadowsocks-csharp.architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8eb55138-eeb6-4f2c-b128-40e60c19a5ba"
+                  name="Actor1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7f9403ee-2f50-4da3-ba23-4d01819c4667"
+                  name="获取服务器列表"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="3e172ee1-2a0f-4f06-bc5e-d6c1e46f8695"
+        name="登录"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="530d5de5-b763-4453-8269-5722b40fb2b2">
+            <useCaseMoniker
+              Id="5df1759b-34f7-4020-b545-cb9c1eabb684"
+              LastKnownName="回答问题"
+              LastKnownLocation="shadowsocks-csharp.architecture.uml" />
+          </include>
+          <include
+            Id="14529272-2ea3-4add-9c64-c0c48ffdf4d6">
+            <useCaseMoniker
+              Id="179a5dab-7e32-4cea-a5d8-be81ab8e5f58"
+              LastKnownName="绑定机器码"
+              LastKnownLocation="shadowsocks-csharp.architecture.uml" />
+          </include>
+        </additions>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c70f48a5-724c-4466-ac6c-0ac65384354a"
+        name="获取服务器列表"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="5df1759b-34f7-4020-b545-cb9c1eabb684"
+        name="回答问题"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="179a5dab-7e32-4cea-a5d8-be81ab8e5f58"
+        name="绑定机器码"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>
