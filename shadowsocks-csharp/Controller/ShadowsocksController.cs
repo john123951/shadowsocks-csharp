@@ -1,7 +1,7 @@
-﻿using Shadowsocks.DomainModel;
+﻿using Shadowsocks.Clients;
+using Shadowsocks.DomainModel;
 using Shadowsocks.Mappers;
-using Shadowsocks.View;
-using shadowsocks_csharp.model.Request;
+using Sweet.LoveWinne.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Sweet.LoveWinne.Model;
 
 namespace Shadowsocks.Controller
 {
@@ -73,7 +72,7 @@ namespace Shadowsocks.Controller
         public void Start()
         {
             //read remote server list
-            LoginAndUpdateServerList(_config);
+            //LoginAndUpdateServerList(_config);
 
             Reload();
         }
@@ -99,67 +98,66 @@ namespace Shadowsocks.Controller
             return config;
         }
 
-        private void LoginAndUpdateServerList(Configuration config)
-        {
-            try
-            {
-                var userInfo = config.UserInfo;
+        //private void LoginAndUpdateServerList(Configuration config)
+        //{
+        //    try
+        //    {
+        //        var userInfo = config.UserInfo;
 
-                //无配置信息
-                if (userInfo == null || string.IsNullOrEmpty(userInfo.UserName) || string.IsNullOrEmpty(userInfo.Password))
-                {
-                    var regForm = new RegistryForm(_updateServerListClient);
+        //        //无配置信息
+        //        if (userInfo == null || string.IsNullOrEmpty(userInfo.UserName) || string.IsNullOrEmpty(userInfo.Password))
+        //        {
+        //            var regForm = new RegistryForm(_updateServerListClient);
 
-                    regForm.ShowDialog();
-                    if (regForm.RegisrySuccess != true)
-                    {
-                        //注册失败，返回
-                        return;
-                    }
-                }
-                if (LoginSuccess != true)
-                {
-                    //登录
-                    var loginSuccess = UserLogin(config.UserInfo);
-                    if (loginSuccess != true)
-                    {
-                        var loginForm = new LoginForm(_updateServerListClient);
+        //            regForm.ShowDialog();
+        //            if (regForm.RegisrySuccess != true)
+        //            {
+        //                //注册失败，返回
+        //                return;
+        //            }
+        //        }
+        //        if (LoginSuccess != true)
+        //        {
+        //            //登录
+        //            var loginSuccess = UserLogin(config.UserInfo);
+        //            if (loginSuccess != true)
+        //            {
+        //                var loginForm = new LoginForm(_updateServerListClient);
 
-                        loginForm.ShowDialog();
+        //                loginForm.ShowDialog();
 
-                        if (loginForm.LoginSuccess != true)
-                        {
-                            //登录失败
-                            return;
-                        }
+        //                if (loginForm.LoginSuccess != true)
+        //                {
+        //                    //登录失败
+        //                    return;
+        //                }
 
-                        //保存配置
-                        config.UserInfo = loginForm.UserInfo;
-                        this._token = loginForm.Token;
-                    }
-                }
+        //                //保存配置
+        //                config.UserInfo = loginForm.UserInfo;
+        //                this._token = loginForm.Token;
+        //            }
+        //        }
 
-                if (LoginSuccess)
-                {
-                    Configuration.Save(config);
-                    UpdateServerList();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //        if (LoginSuccess)
+        //        {
+        //            Configuration.Save(config);
+        //            UpdateServerList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
         public void UpdateServerList()
         {
             try
             {
                 var response = _updateServerListClient.GetServerList(new GetServerListRequest
-                        {
-                            //ClientId = AppSession.ClientId,
-                            Token = _token
-                        });
+                {
+                    Token = _token
+                });
 
                 if (response.IsSuccess)
                 {
@@ -177,39 +175,38 @@ namespace Shadowsocks.Controller
             }
         }
 
-        public bool UserLogin(UserInfo userInfo)
-        {
-            bool result = false;
-            try
-            {
-                var loginResponse = _updateServerListClient.Login(new LoginRequest
-                {
-                    //ClientId = AppSession.ClientId,
-                    UserName = userInfo.UserName,
-                    Password = userInfo.Password
-                });
-                result = loginResponse.IsSuccess;
-                if (loginResponse.IsSuccess)
-                {
-                    _token = loginResponse.Token;
-                    if (string.IsNullOrEmpty(loginResponse.Notify) != true)
-                    {
-                        MessageBox.Show(loginResponse.Notify);
-                    }
-                }
-                else
-                {
-                    var msg = loginResponse.Message;
-                    MessageBox.Show(msg);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+        //public bool UserLogin(UserInfo userInfo)
+        //{
+        //    bool result = false;
+        //    try
+        //    {
+        //        var loginResponse = _updateServerListClient.Login(new LoginRequest
+        //        {
+        //            UserName = userInfo.UserName,
+        //            Password = userInfo.Password
+        //        });
+        //        result = loginResponse.IsSuccess;
+        //        if (loginResponse.IsSuccess)
+        //        {
+        //            _token = loginResponse.Token;
+        //            if (string.IsNullOrEmpty(loginResponse.Notify) != true)
+        //            {
+        //                MessageBox.Show(loginResponse.Notify);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var msg = loginResponse.Message;
+        //            MessageBox.Show(msg);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public void SaveServers(List<Server> servers)
         {

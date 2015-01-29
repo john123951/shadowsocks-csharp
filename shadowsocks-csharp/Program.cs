@@ -1,8 +1,7 @@
 ﻿using Shadowsocks.Controller;
-using Shadowsocks.Properties;
+using Shadowsocks.DomainModel;
 using Shadowsocks.View;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -10,13 +9,13 @@ using System.Windows.Forms;
 
 namespace Shadowsocks
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Util.Utils.ReleaseMemory();
             using (Mutex mutex = new Mutex(false, "Global\\" + "71981632-A427-497F-AB91-241CD227EC1F"))
@@ -42,6 +41,12 @@ namespace Shadowsocks
 
                 MenuViewController viewController = new MenuViewController(controller);
 
+                //登录
+                var usrController = new UserController(Configuration.Load());
+
+                usrController.Start();
+
+                //开始运行
                 controller.Start();
 
                 Application.Run();

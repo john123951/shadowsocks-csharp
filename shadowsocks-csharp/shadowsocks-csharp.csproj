@@ -125,12 +125,12 @@
     <Compile Include="3rd\zxing\ResultPointCallback.cs" />
     <Compile Include="3rd\zxing\WriterException.cs" />
     <Compile Include="Controller\AutoStartup.cs" />
-    <Compile Include="Controller\FileManager.cs" />
+    <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Controller\GFWListUpdater.cs" />
     <Compile Include="Controller\I18N.cs" />
     <Compile Include="Controller\Logging.cs" />
     <Compile Include="Controller\UpdateChecker.cs" />
-    <Compile Include="Controller\UpdateServerListClient.cs" />
+    <Compile Include="Clients\UpdateServerListClient.cs" />
     <Compile Include="DomainModel\AppSession.cs" />
     <Compile Include="DomainModel\UserInfo.cs" />
     <Compile Include="Encryption\EncryptorBase.cs" />
@@ -145,6 +145,7 @@
     <Compile Include="Controller\PACServer.cs" />
     <Compile Include="DomainModel\Server.cs" />
     <Compile Include="DomainModel\Configuration.cs" />
+    <Compile Include="Controller\UserController.cs" />
     <Compile Include="Mappers\ServerMapper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -188,6 +189,12 @@
     </Compile>
     <Compile Include="View\RegistryForm.Designer.cs">
       <DependentUpon>RegistryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ValidateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\ValidateForm.Designer.cs">
+      <DependentUpon>ValidateForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="View\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>

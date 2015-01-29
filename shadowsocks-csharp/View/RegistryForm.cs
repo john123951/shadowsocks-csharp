@@ -1,4 +1,6 @@
-﻿using Shadowsocks.Controller;
+﻿using System;
+using Shadowsocks.Clients;
+using Shadowsocks.Controller;
 using Sweet.LoveWinne.Model;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -16,6 +18,7 @@ namespace Shadowsocks.View
             : this()
         {
             this._updateServerListClient = updateServerListClient;
+            InitQuestionList();
         }
 
         public RegistryForm()
@@ -25,11 +28,22 @@ namespace Shadowsocks.View
 
         private void InitQuestionList()
         {
-            var response = _updateServerListClient.GetQuestionList(null);
+            var response = _updateServerListClient.GetQuestionList(new GetQuestionListRequest());
             if (response.IsSuccess)
             {
                 _questionDtoList = response.QuestionList;
             }
+        }
+
+        private void Register()
+        {
+            var response = _updateServerListClient.Register(new RegisterRequest
+                          {
+                              UserName = Guid.NewGuid().ToString(),
+                              Password = "111111"
+                          });
+
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Shadowsocks.Controller;
+﻿using Shadowsocks.Clients;
+using Shadowsocks.Controller;
 using Shadowsocks.DomainModel;
 using shadowsocks_csharp.model.Request;
 using System.Windows.Forms;

@@ -1,12 +1,10 @@
-﻿using Shadowsocks.DomainModel;
-using shadowsocks_csharp.model.Request;
-using shadowsocks_csharp.model.Response;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Shadowsocks.DomainModel;
 using Sweet.LoveWinne.Model;
 
-namespace Shadowsocks.Controller
+namespace Shadowsocks.Clients
 {
     public class UpdateServerListClient
     {
