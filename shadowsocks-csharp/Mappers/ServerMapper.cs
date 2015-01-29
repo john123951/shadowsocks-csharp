@@ -1,5 +1,5 @@
 ﻿using Shadowsocks.DomainModel;
-using shadowsocks_csharp.model.Dto;
+using Sweet.LoveWinne.Model;
 using System.Collections.Generic;
 
 namespace Shadowsocks.Mappers

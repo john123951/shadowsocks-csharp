@@ -39,15 +39,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dto\ServerDto.cs" />
+    <Compile Include="Dto\Account\UserInfoDto.cs" />
+    <Compile Include="Dto\Question\AnswerQuestionItem.cs" />
+    <Compile Include="Dto\Question\QuestionAnswerDto.cs" />
+    <Compile Include="Dto\Question\QuestionDto.cs" />
+    <Compile Include="Dto\ShadowProxy\ServerDto.cs" />
+    <Compile Include="Messages\Account\LoginRequest.cs" />
+    <Compile Include="Messages\Account\LoginResponse.cs" />
+    <Compile Include="Messages\Account\RegisterRequest.cs" />
+    <Compile Include="Messages\Account\RegisterResponse.cs" />
+    <Compile Include="Messages\Question\AnswertQuestionListRequest.cs" />
+    <Compile Include="Messages\Question\AnswertQuestionListResponse.cs" />
+    <Compile Include="Messages\Question\GetQuestionListRequest.cs" />
+    <Compile Include="Messages\Question\GetQuestionListResponse.cs" />
+    <Compile Include="Messages\ShadowServer\GetServerListRequest.cs" />
+    <Compile Include="Messages\ShadowServer\GetServerListResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\Auth\AuthRequest.cs" />
-    <Compile Include="Request\BaseRequest.cs" />
-    <Compile Include="Request\GetServerListRequest.cs" />
-    <Compile Include="Request\LoginRequest.cs" />
-    <Compile Include="Response\BaseResponse.cs" />
-    <Compile Include="Response\GetServerListResponse.cs" />
-    <Compile Include="Response\LoginResponse.cs" />
+    <Compile Include="Messages\Base\Auth\AuthRequest.cs" />
+    <Compile Include="Messages\Base\BaseRequest.cs" />
+    <Compile Include="Messages\Base\BaseResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />

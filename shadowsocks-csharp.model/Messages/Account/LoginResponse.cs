@@ -1,4 +1,6 @@
-﻿namespace shadowsocks_csharp.model.Response
+﻿using shadowsocks_csharp.model.Response;
+
+namespace Sweet.LoveWinne.Model
 {
     public class LoginResponse : BaseResponse
     {

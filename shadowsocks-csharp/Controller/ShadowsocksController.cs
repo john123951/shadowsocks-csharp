@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Sweet.LoveWinne.Model;
 
 namespace Shadowsocks.Controller
 {
@@ -31,6 +32,15 @@ namespace Shadowsocks.Controller
         private readonly UpdateServerListClient _updateServerListClient;
 
         private bool _systemProxyIsDirty = false;
+
+        public bool LoginSuccess
+        {
+            get
+            {
+                var result = _config.UserInfo != null && string.IsNullOrEmpty(_token) != true;
+                return result;
+            }
+        }
 
         public class PathEventArgs : EventArgs
         {
@@ -63,7 +73,7 @@ namespace Shadowsocks.Controller
         public void Start()
         {
             //read remote server list
-            GetServerList(_config);
+            LoginAndUpdateServerList(_config);
 
             Reload();
         }
@@ -89,57 +99,55 @@ namespace Shadowsocks.Controller
             return config;
         }
 
-        public void GetServerList(Configuration config)
+        private void LoginAndUpdateServerList(Configuration config)
         {
             try
             {
                 var userInfo = config.UserInfo;
 
-                //有配置信息
-                if (userInfo != null && !string.IsNullOrEmpty(userInfo.UserName) && !string.IsNullOrEmpty(userInfo.Password))
+                //无配置信息
+                if (userInfo == null || string.IsNullOrEmpty(userInfo.UserName) || string.IsNullOrEmpty(userInfo.Password))
+                {
+                    var regForm = new RegistryForm(_updateServerListClient);
+
+                    regForm.ShowDialog();
+                    if (regForm.RegisrySuccess != true)
+                    {
+                        //注册失败，返回
+                        return;
+                    }
+                }
+                if (LoginSuccess != true)
                 {
                     //登录
                     var loginSuccess = UserLogin(config.UserInfo);
-                    if (loginSuccess)
-                    {
-                        Configuration.Save(config);
-                        UpdateServerList();
-                    }
-                    else
+                    if (loginSuccess != true)
                     {
                         var loginForm = new LoginForm(_updateServerListClient);
 
-                        var dlgResult = loginForm.ShowDialog();
+                        loginForm.ShowDialog();
 
-                        if (dlgResult == DialogResult.OK)
+                        if (loginForm.LoginSuccess != true)
                         {
-                            //保存配置
-                            config.UserInfo = loginForm.UserInfo;
-                            this._token = loginForm.Token;
-
-                            Configuration.Save(config);
+                            //登录失败
+                            return;
                         }
+
+                        //保存配置
+                        config.UserInfo = loginForm.UserInfo;
+                        this._token = loginForm.Token;
                     }
                 }
-                else
-                {
-                    var regForm = new RegistryForm();
 
-                    regForm.ShowDialog();
-                    if (regForm.RegisrySuccess)
-                    {
-                        //登录
-                        var loginSuccess = UserLogin(config.UserInfo);
-                        if (loginSuccess)
-                        {
-                            Configuration.Save(config);
-                            UpdateServerList();
-                        }
-                    }
+                if (LoginSuccess)
+                {
+                    Configuration.Save(config);
+                    UpdateServerList();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -149,7 +157,7 @@ namespace Shadowsocks.Controller
             {
                 var response = _updateServerListClient.GetServerList(new GetServerListRequest
                         {
-                            ClientId = AppSession.ClientId,
+                            //ClientId = AppSession.ClientId,
                             Token = _token
                         });
 
@@ -176,7 +184,7 @@ namespace Shadowsocks.Controller
             {
                 var loginResponse = _updateServerListClient.Login(new LoginRequest
                 {
-                    ClientId = AppSession.ClientId,
+                    //ClientId = AppSession.ClientId,
                     UserName = userInfo.UserName,
                     Password = userInfo.Password
                 });

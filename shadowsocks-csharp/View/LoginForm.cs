@@ -1,8 +1,8 @@
 ﻿using Shadowsocks.Controller;
 using Shadowsocks.DomainModel;
 using shadowsocks_csharp.model.Request;
-using System;
 using System.Windows.Forms;
+using Sweet.LoveWinne.Model;
 
 namespace Shadowsocks.View
 {
@@ -11,6 +11,8 @@ namespace Shadowsocks.View
         public string Token { get; protected set; }
 
         public UserInfo UserInfo { get; protected set; }
+
+        public bool LoginSuccess { get; set; }
 
         private readonly UpdateServerListClient _updateServerListClient;
 
@@ -28,7 +30,7 @@ namespace Shadowsocks.View
         private void btn_login_Click(object sender, System.EventArgs e)
         {
             var userName = txt_userName.Text;
-            var password = DateTime.Now.ToString();
+            var password = txt_password.Text;
 
             if (string.IsNullOrEmpty(userName))
             {
@@ -38,11 +40,12 @@ namespace Shadowsocks.View
 
             var loginResponse = _updateServerListClient.Login(new LoginRequest
             {
-                ClientId = AppSession.ClientId,
+                //ClientId = AppSession.ClientId,
                 UserName = userName,
                 Password = password
             });
 
+            LoginSuccess = loginResponse.IsSuccess;
             if (loginResponse.IsSuccess)
             {
                 UserInfo = new UserInfo { UserName = userName, Password = password };
@@ -52,9 +55,6 @@ namespace Shadowsocks.View
                 {
                     MessageBox.Show(loginResponse.Notify);
                 }
-
-                this.DialogResult = DialogResult.OK;
-
                 return;
             }
             else

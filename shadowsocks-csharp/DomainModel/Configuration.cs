@@ -28,7 +28,7 @@ namespace Shadowsocks.DomainModel
 
         private static string CONFIG_FILE = "config.db";
 
-        private static string Key
+        public static string ClientId
         {
             get { return HardwareUtility.GetHardDiskSerialNo(); }
         }
@@ -60,7 +60,7 @@ namespace Shadowsocks.DomainModel
                 string configContent = File.ReadAllText(CONFIG_FILE);
 
                 //解密
-                var data = AesUtility.DecryptString(configContent, Key);
+                var data = AesUtility.DecryptString(configContent, ClientId);
 
                 Configuration config = JsonUtility.Deserialize<Configuration>(data);
                 config.isDefault = false;
@@ -101,7 +101,7 @@ namespace Shadowsocks.DomainModel
                 string jsonString = JsonUtility.Serialize(config);
 
                 //加密
-                var data = AesUtility.EncryptString(jsonString, Key);
+                var data = AesUtility.EncryptString(jsonString, ClientId);
 
                 using (StreamWriter sw = new StreamWriter(File.Open(CONFIG_FILE, FileMode.Create)))
                 {

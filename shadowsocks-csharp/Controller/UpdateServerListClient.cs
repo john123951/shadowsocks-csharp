@@ -1,10 +1,10 @@
 ﻿using Shadowsocks.DomainModel;
-using shadowsocks_csharp.model.Dto;
 using shadowsocks_csharp.model.Request;
 using shadowsocks_csharp.model.Response;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Sweet.LoveWinne.Model;
 
 namespace Shadowsocks.Controller
 {
@@ -30,6 +30,12 @@ namespace Shadowsocks.Controller
         {
             EventHandler handler = GetServerListSuccess;
             if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+
+        public RegisterResponse Register(RegisterRequest request)
+        {
+            return null;
         }
 
         public LoginResponse Login(LoginRequest request)
@@ -71,6 +77,11 @@ namespace Shadowsocks.Controller
             Thread.Sleep(3000);
 
             return result;
+        }
+
+        public GetQuestionListResponse GetQuestionList(GetQuestionListRequest request)
+        {
+            return null;
         }
     }
 }
