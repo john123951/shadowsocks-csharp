@@ -66,7 +66,8 @@ namespace Shadowsocks.View
             if (controller.GetConfiguration().isDefault)
             {
                 _isFirstRun = true;
-                ShowConfigForm();
+                //不显示配置界面
+                //ShowConfigForm();
             }
         }
 

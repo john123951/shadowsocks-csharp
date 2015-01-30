@@ -2,6 +2,8 @@
 using Shadowsocks.DomainModel;
 using Shadowsocks.View;
 using Sweet.LoveWinne.Model;
+using System;
+using System.Windows.Forms;
 
 namespace Shadowsocks.Controller
 {
@@ -27,20 +29,11 @@ namespace Shadowsocks.Controller
                  Password = userInfo.Password
              });
 
-            if (regResponse.IsSuccess != true)
+            if (regResponse.IsSuccess)
             {
-                return false;
-            }
+                var result = ValidateUser(userInfo);
 
-            var listResponse = _updateServerListClient.GetQuestionList(new GetQuestionListRequest());
-
-            if (listResponse.IsSuccess)
-            {
-                var validateDlg = new ValidateForm(listResponse.QuestionList);
-
-                validateDlg.ShowDialog();
-
-                return validateDlg.IsValidated;
+                return result;
             }
 
             return false;
@@ -59,11 +52,64 @@ namespace Shadowsocks.Controller
                 return true;
             }
 
+            //用户密码错误
+            if (string.Compare("login_000001", loginResponse.MessageCode, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                var loginDlg = new LoginForm();
 
+                if (loginDlg.DialogResult == DialogResult.OK)
+                {
+                    var result = Login(loginDlg.UserInfo);
+                    return result;
+                }
+            }
 
+            //用户未授权
+            if (string.Compare("login_000001", loginResponse.MessageCode, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                var result = ValidateUser(userInfo);
 
+                return result;
+            }
 
-            //return false;
+            return false;
+        }
+
+        private bool ValidateUser(UserInfo userInfo)
+        {
+            var listResponse = _updateServerListClient.GetQuestionList(new GetQuestionListRequest());
+
+            if (listResponse.IsSuccess)
+            {
+                //提示用户回答问题
+                var validateDlg = new ValidateForm(listResponse);
+
+                validateDlg.ShowDialog();
+
+                if (validateDlg.DialogResult == DialogResult.OK)
+                {
+                    //验证回答
+                    var answerQuestionItems = validateDlg.AnswerQuestionItems;
+
+                    var validateResponse = _updateServerListClient.AnswertQuestionList(new AnswertQuestionListRequest
+                    {
+                        AnswerQuestionList = answerQuestionItems
+                    });
+
+                    if (validateResponse.IsSuccess)
+                    {
+                        //登录
+                        var result = Login(userInfo);
+                        return result;
+                    }
+                    else
+                    {
+                        MessageBox.Show(validateResponse.Message);
+                    }
+                }
+            }
+
+            return false;
         }
 
         public void Start()

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C829CCDA-A0C6-4509-B602-6F410853248A}</ProjectGuid>
+    <ProjectGuid>{3F29C92A-81EE-458D-B4BB-361A4A7CEF3A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>shadowsocks_csharp.model</RootNamespace>
-    <AssemblyName>shadowsocks-csharp.model</AssemblyName>
+    <RootNamespace>shadowsocks_client</RootNamespace>
+    <AssemblyName>shadowsocks-client</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,33 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Dto\Account\UserInfoDto.cs" />
-    <Compile Include="Dto\Question\AnswerQuestionItem.cs" />
-    <Compile Include="Dto\Question\QuestionAnswerDto.cs" />
-    <Compile Include="Dto\Question\QuestionDto.cs" />
-    <Compile Include="Dto\ShadowProxy\ServerDto.cs" />
-    <Compile Include="Messages\Account\LoginRequest.cs" />
-    <Compile Include="Messages\Account\LoginResponse.cs" />
-    <Compile Include="Messages\Account\RegisterRequest.cs" />
-    <Compile Include="Messages\Account\RegisterResponse.cs" />
-    <Compile Include="Messages\Question\AnswertQuestionListRequest.cs" />
-    <Compile Include="Messages\Question\AnswertQuestionListResponse.cs" />
-    <Compile Include="Messages\Question\GetQuestionListRequest.cs" />
-    <Compile Include="Messages\Question\GetQuestionListResponse.cs" />
-    <Compile Include="Messages\ShadowServer\GetServerListRequest.cs" />
-    <Compile Include="Messages\ShadowServer\GetServerListResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Messages\Base\Auth\AuthRequest.cs" />
-    <Compile Include="Messages\Base\BaseRequest.cs" />
-    <Compile Include="Messages\Base\BaseResponse.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="UserInfo.cs" />
+    <Compile Include="UpdateServerListClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\shadowsocks-csharp.model\shadowsocks-csharp.model.csproj">
+      <Project>{C829CCDA-A0C6-4509-B602-6F410853248A}</Project>
+      <Name>shadowsocks-csharp.model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\shadowsocks-csharp.util\shadowsocks-csharp.util.csproj">
       <Project>{114C7346-2F9B-4A97-8CCF-CFED209E7CE5}</Project>
       <Name>shadowsocks-csharp.util</Name>

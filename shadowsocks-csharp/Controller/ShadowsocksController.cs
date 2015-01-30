@@ -27,19 +27,9 @@ namespace Shadowsocks.Controller
         private PolipoRunner polipoRunner;
         private GFWListUpdater gfwListUpdater;
         private bool stopped = false;
-        private string _token;
         private readonly UpdateServerListClient _updateServerListClient;
 
         private bool _systemProxyIsDirty = false;
-
-        public bool LoginSuccess
-        {
-            get
-            {
-                var result = _config.UserInfo != null && string.IsNullOrEmpty(_token) != true;
-                return result;
-            }
-        }
 
         public class PathEventArgs : EventArgs
         {
@@ -72,9 +62,47 @@ namespace Shadowsocks.Controller
         public void Start()
         {
             //read remote server list
-            //LoginAndUpdateServerList(_config);
+            ReadRemoteServerList();
 
             Reload();
+        }
+
+        private void ReadRemoteServerList()
+        {
+            try
+            {
+                var usrController = new UserController(_config);
+
+                //查看配置文件
+                if (_config.UserInfo == null || string.IsNullOrEmpty(_config.UserInfo.UserName) || string.IsNullOrEmpty(_config.UserInfo.Password))
+                {
+                    _config.UserInfo = new UserInfo
+                    {
+                        UserName = Guid.NewGuid().ToString(),
+                        Password = "111111"
+                    };
+
+                    var regSuccess = usrController.Register(_config.UserInfo);
+
+                    if (regSuccess != true)
+                    {
+                        return;
+                    }
+                }
+
+                var loginSuccess = usrController.Login(_config.UserInfo);
+
+                if (loginSuccess)
+                {
+                    Configuration.Save(_config);
+                    //更新服务器列表
+                    UpdateServerList();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         protected void ReportError(Exception e)
@@ -98,66 +126,11 @@ namespace Shadowsocks.Controller
             return config;
         }
 
-        //private void LoginAndUpdateServerList(Configuration config)
-        //{
-        //    try
-        //    {
-        //        var userInfo = config.UserInfo;
-
-        //        //无配置信息
-        //        if (userInfo == null || string.IsNullOrEmpty(userInfo.UserName) || string.IsNullOrEmpty(userInfo.Password))
-        //        {
-        //            var regForm = new RegistryForm(_updateServerListClient);
-
-        //            regForm.ShowDialog();
-        //            if (regForm.RegisrySuccess != true)
-        //            {
-        //                //注册失败，返回
-        //                return;
-        //            }
-        //        }
-        //        if (LoginSuccess != true)
-        //        {
-        //            //登录
-        //            var loginSuccess = UserLogin(config.UserInfo);
-        //            if (loginSuccess != true)
-        //            {
-        //                var loginForm = new LoginForm(_updateServerListClient);
-
-        //                loginForm.ShowDialog();
-
-        //                if (loginForm.LoginSuccess != true)
-        //                {
-        //                    //登录失败
-        //                    return;
-        //                }
-
-        //                //保存配置
-        //                config.UserInfo = loginForm.UserInfo;
-        //                this._token = loginForm.Token;
-        //            }
-        //        }
-
-        //        if (LoginSuccess)
-        //        {
-        //            Configuration.Save(config);
-        //            UpdateServerList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
         public void UpdateServerList()
         {
             try
             {
-                var response = _updateServerListClient.GetServerList(new GetServerListRequest
-                {
-                    Token = _token
-                });
+                var response = _updateServerListClient.GetServerList(new GetServerListRequest());
 
                 if (response.IsSuccess)
                 {
@@ -174,39 +147,6 @@ namespace Shadowsocks.Controller
                 MessageBox.Show(ex.Message);
             }
         }
-
-        //public bool UserLogin(UserInfo userInfo)
-        //{
-        //    bool result = false;
-        //    try
-        //    {
-        //        var loginResponse = _updateServerListClient.Login(new LoginRequest
-        //        {
-        //            UserName = userInfo.UserName,
-        //            Password = userInfo.Password
-        //        });
-        //        result = loginResponse.IsSuccess;
-        //        if (loginResponse.IsSuccess)
-        //        {
-        //            _token = loginResponse.Token;
-        //            if (string.IsNullOrEmpty(loginResponse.Notify) != true)
-        //            {
-        //                MessageBox.Show(loginResponse.Notify);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            var msg = loginResponse.Message;
-        //            MessageBox.Show(msg);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-
-        //    return result;
-        //}
 
         public void SaveServers(List<Server> servers)
         {

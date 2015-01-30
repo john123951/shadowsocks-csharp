@@ -1,5 +1,5 @@
 ﻿using Shadowsocks.Controller;
-using Shadowsocks.DomainModel;
+using Shadowsocks.Properties;
 using Shadowsocks.View;
 using System;
 using System.Diagnostics;
@@ -18,6 +18,8 @@ namespace Shadowsocks
         private static void Main()
         {
             Util.Utils.ReleaseMemory();
+            I18N.Register(Resources.cn);
+
             using (Mutex mutex = new Mutex(false, "Global\\" + "71981632-A427-497F-AB91-241CD227EC1F"))
             {
                 Application.EnableVisualStyles();
@@ -40,11 +42,6 @@ namespace Shadowsocks
                 ShadowsocksController controller = new ShadowsocksController();
 
                 MenuViewController viewController = new MenuViewController(controller);
-
-                //登录
-                var usrController = new UserController(Configuration.Load());
-
-                usrController.Start();
 
                 //开始运行
                 controller.Start();

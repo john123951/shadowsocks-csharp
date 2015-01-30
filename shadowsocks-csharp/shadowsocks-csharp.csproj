@@ -127,12 +127,9 @@
     <Compile Include="Controller\AutoStartup.cs" />
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Controller\GFWListUpdater.cs" />
-    <Compile Include="Controller\I18N.cs" />
     <Compile Include="Controller\Logging.cs" />
     <Compile Include="Controller\UpdateChecker.cs" />
-    <Compile Include="Clients\UpdateServerListClient.cs" />
     <Compile Include="DomainModel\AppSession.cs" />
-    <Compile Include="DomainModel\UserInfo.cs" />
     <Compile Include="Encryption\EncryptorBase.cs" />
     <Compile Include="Encryption\EncryptorFactory.cs" />
     <Compile Include="Encryption\IVEncryptor.cs" />
@@ -143,8 +140,6 @@
     <Compile Include="Encryption\TableEncryptor.cs" />
     <Compile Include="Encryption\IEncryptor.cs" />
     <Compile Include="Controller\PACServer.cs" />
-    <Compile Include="DomainModel\Server.cs" />
-    <Compile Include="DomainModel\Configuration.cs" />
     <Compile Include="Controller\UserController.cs" />
     <Compile Include="Mappers\ServerMapper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -155,7 +150,6 @@
     <Compile Include="Util\UsrCtrl\DisGetTextbox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Util\Util.cs" />
     <Compile Include="View\ConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +205,9 @@
     <EmbeddedResource Include="View\QRCodeForm.resx">
       <DependentUpon>QRCodeForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\ValidateForm.resx">
+      <DependentUpon>ValidateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest">
       <SubType>Designer</SubType>
@@ -262,6 +259,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\shadowsocks-client\shadowsocks-client.csproj">
+      <Project>{3F29C92A-81EE-458D-B4BB-361A4A7CEF3A}</Project>
+      <Name>shadowsocks-client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\shadowsocks-csharp.model\shadowsocks-csharp.model.csproj">
       <Project>{C829CCDA-A0C6-4509-B602-6F410853248A}</Project>
       <Name>shadowsocks-csharp.model</Name>

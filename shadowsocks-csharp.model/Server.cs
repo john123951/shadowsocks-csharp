@@ -1,7 +1,7 @@
-using Shadowsocks.Controller;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
+using Shadowsocks.Controller;
 
 namespace Shadowsocks.DomainModel
 {
