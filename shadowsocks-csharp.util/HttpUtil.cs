@@ -23,11 +23,11 @@ namespace shadowsocks_csharp.util
         /// <param name="data">需要发送的数据</param>
         /// <returns></returns>
 
-        public static TResponse Post<TRequest, TResponse>(string address, TRequest request)
+        public static TResponse Post<TRequest, TResponse>(string address, TRequest request, WebHeaderCollection headers = null)
         {
             var data = JsonUtility.Serialize(request);
 
-            var response = Post(address, data, Encoding.UTF8);
+            var response = Post(address, data, Encoding.UTF8, x => x.Headers = headers);
 
             var result = JsonUtility.Deserialize<TResponse>(response);
 
@@ -52,13 +52,18 @@ namespace shadowsocks_csharp.util
         /// <param name="data">需要发送的数据</param>
         /// <param name="encoding">编码</param>
         /// <returns></returns>
-        public static string Post(string address, string data, Encoding encoding)
+        public static string Post(string address, string data, Encoding encoding, Action<HttpWebRequest> modify = null)
         {
             var request = WebRequest.Create(address) as HttpWebRequest;
             Debug.Assert(request != null, "request != null");
 
             PackRequest(request);
             request.Method = "POST";
+
+            if (modify != null)
+            {
+                modify(request);
+            }
 
             byte[] byteArray = encoding.GetBytes(data);
             request.ContentLength = byteArray.Length;

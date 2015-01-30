@@ -190,6 +190,7 @@
     <Compile Include="View\ValidateForm.Designer.cs">
       <DependentUpon>ValidateForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestProgram.cs" />
     <EmbeddedResource Include="View\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
       <SubType>Designer</SubType>

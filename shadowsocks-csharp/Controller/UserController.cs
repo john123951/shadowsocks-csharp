@@ -1,8 +1,10 @@
 ﻿using Shadowsocks.Clients;
 using Shadowsocks.DomainModel;
 using Shadowsocks.View;
+using shadowsocks_csharp.util;
 using Sweet.LoveWinne.Model;
 using System;
+using System.Net;
 using System.Windows.Forms;
 
 namespace Shadowsocks.Controller
@@ -13,7 +15,9 @@ namespace Shadowsocks.Controller
 
         public UserController(Configuration config)
         {
-            _updateServerListClient = new UpdateServerListClient(config);
+            var header = new WebHeaderCollection {{"clientId", HardwareUtility.GetHardDiskSerialNo()}};
+
+            _updateServerListClient = new UpdateServerListClient(config, header);
         }
 
         public bool Register(UserInfo userInfo)

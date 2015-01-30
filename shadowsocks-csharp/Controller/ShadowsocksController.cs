@@ -1,10 +1,12 @@
 ﻿using Shadowsocks.Clients;
 using Shadowsocks.DomainModel;
 using Shadowsocks.Mappers;
+using shadowsocks_csharp.util;
 using Sweet.LoveWinne.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -56,7 +58,10 @@ namespace Shadowsocks.Controller
         public ShadowsocksController()
         {
             _config = Configuration.Load();
-            _updateServerListClient = new UpdateServerListClient(_config);
+
+            var header = new WebHeaderCollection { { "clientId", HardwareUtility.GetHardDiskSerialNo() } };
+
+            _updateServerListClient = new UpdateServerListClient(_config, header);
         }
 
         public void Start()
